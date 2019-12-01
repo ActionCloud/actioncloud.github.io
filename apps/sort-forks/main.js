@@ -1,7 +1,6 @@
 const repoOwner = getParamByName('owner');
 const repoName = getParamByName('repo');
-// const forksDataUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/master/.github/actioncloud/sort-forks/data.json`;
-const forksDataUrl = `https://raw.githubusercontent.com/actioncloud/sort-forks-action/master/.github/actioncloud/sort-forks/data.json`;
+const forksDataUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/master/.github/actioncloud/sort-forks/data.json`;
 
 async function run() {
   const forksData = await getForksData(forksDataUrl);
