@@ -6,6 +6,7 @@ let issueTrackerDataPoints = [];
 async function run() {
   issueTrackerDataPoints = await getIssueData(issueDataUrl);
 
+  let firstTrackEntry = issueTrackerDataPoints[0];
   let entries72 = issueTrackerDataPoints.slice(0, 72);
   let entries720 = issueTrackerDataPoints;
 
@@ -118,7 +119,7 @@ async function run() {
     }
   });
 
-  fillDiffs(nowEntry, dayAgoEntry);
+  fillDiffs(nowEntry, dayAgoEntry, firstTrackEntry);
 
   timesArr = [];
   openIssueArr = [];
@@ -194,7 +195,7 @@ async function run() {
 
 run();
 
-function fillDiffs(nowEntry, dayAgoEntry) {
+function fillDiffs(nowEntry, dayAgoEntry, firstTrackEntry) {
   let diff = nowEntry.openIssues - dayAgoEntry.openIssues;
   let colorClass;
   let symbol;
@@ -220,12 +221,13 @@ function fillDiffs(nowEntry, dayAgoEntry) {
   })`;
 
   const totalDiffElement = document.getElementById("totalDiff");
+  const firstTrackDate = moment.unix(firstTrackEntry.timestamp).format("LLLL");
 
   totalDiffElement.innerHTML = `
-    On Sept 10, 2018 at 8:41PM EST, there were 49,181 closed issues. Now there
+    On ${firstTrackDate}, there were ${firstTrackEntry.closedIssues.toLocaleString()} closed issues. Now there
     are ${nowEntry.closedIssues.toLocaleString()} closed issues, for a total difference of
     <b>${(
-      nowEntry.closedIssues - 49181
+      nowEntry.closedIssues - firstTrackEntry.closedIssues
     ).toLocaleString()} issues</b> that have been closed since I started tracking this.
   `;
 }
